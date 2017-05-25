@@ -9,9 +9,9 @@ This chatbot has been designed with the intention to answer queries related to a
 2. Execute NounsExtraction.py
 3. Execute Chatbot.py
 4. Go ahead and ask your queries!
-5. To exit, type 'quit' 
+5. To exit, input 'quit' as your query 
 
-If you are a user of iPython Notebooks, you can also run NounsExtraction.ipynb followed by Chatbot.ipynb instead.
+If you are a user of IPython Notebooks, you can also run NounsExtraction.ipynb followed by Chatbot.ipynb instead.
 
 
 
