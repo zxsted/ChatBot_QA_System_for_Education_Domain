@@ -11,6 +11,7 @@ This chatbot has been designed with the intention to answer queries related to a
 4. Input query
 5. To exit, type 'quit'
 
+If you are a user of iPython Notebooks, you can also run NounsExtraction.ipynb followed by Chatbot.ipynb instead.
 
 
 
