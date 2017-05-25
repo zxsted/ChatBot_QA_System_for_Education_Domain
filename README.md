@@ -8,7 +8,7 @@ This chatbot has been designed with the intention to answer queries related to a
 1. Download Question_Answers.xlsx, NounsExtraction.py, Chatbot.py to the same folder
 2. Execute NounsExtraction.py
 3. Execute Chatbot.py
-4. Input query. You can ask as many queries as you like.
+4. Type your query. After receiving response, you can ask as many queries as you like.
 5. To exit, type 'quit'
 
 If you are a user of iPython Notebooks, you can also run NounsExtraction.ipynb followed by Chatbot.ipynb instead.
