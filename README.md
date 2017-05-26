@@ -1,6 +1,6 @@
 # ChatBot-QA-System-for-S-P-Jain-
 
-This chatbot has been designed with the intention to answer queries related to admission, programs etc. offered at SP Jain School of Global Management. It intends to answer queries of visitors of the SP Jain website.
+This chatbot has been designed with the intention to answer queries related to admission, programs etc. offered at SP Jain School of Global Management. It aims to resolve queries of the sp jain website visitors
 
 
 ### To run/test the bot:
