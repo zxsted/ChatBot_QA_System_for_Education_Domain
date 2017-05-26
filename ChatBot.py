@@ -1,17 +1,17 @@
 
 # coding: utf-8
 
-# In[21]:
+# In[1]:
 
 import pandas as pd
 
 
-# In[22]:
+# In[2]:
 
 df = pd.read_excel('Data.xlsx')
 
 
-# In[23]:
+# In[3]:
 
 import warnings
 warnings.filterwarnings('ignore')
@@ -19,7 +19,7 @@ warnings.filterwarnings('ignore')
 
 # ### Vectorising Questions 
 
-# In[24]:
+# In[4]:
 
 import string #allows for format()
 import pandas
@@ -91,7 +91,7 @@ for doc in mydoclist:
 
 # ### Vectorising Key Words in Question
 
-# In[25]:
+# In[5]:
 
 import string #allows for format()
 import pandas
@@ -158,53 +158,63 @@ for doc in mydoclist:
     #print(cntr)
 
 
-# In[26]:
+# In[6]:
 
 test2C = test2.copy()
 
 
-# In[27]:
+# In[7]:
 
 test2C.columns = range(test.shape[1], test.shape[1]+ test2.shape[1])
 
 
-# In[28]:
+# In[8]:
 
 test2.index = range(len(test2))
 test.index = range(len(test))
 test2C.index = range(len(test2C))
 
 
-# In[29]:
+# In[9]:
 
 test3 = pd.concat([test.reset_index(drop=True), test2C], axis=1)
 
 #test has vectorised questions in dataframe. test2 does the same for nouns. test3 dataframe concatenates test and test2
 
 
-# In[30]:
+# In[10]:
 
 test['Question'] = list(df.Questions)
 test['Answer'] = list(df.Answers)
 
 
-# In[31]:
+# In[11]:
 
 test2['Question'] = list(df.Questions)
 test2['Answer'] = list(df.Answers)
 
 
-# In[32]:
+# In[12]:
 
 test3['Question'] = list(df.Questions)
 test3['Answer'] = list(df.Answers)
+
+
+# In[ ]:
+
+
+
+
+# In[ ]:
+
+
 
 
 # <br><br>
 
 # ### Applying Random Forest 
 
-# In[33]:
+# In[79]:
 
 TestDF = pd.DataFrame()
 TrainDF = pd.DataFrame()
@@ -227,6 +237,8 @@ def RFModel(df, test_size=0.1):
     model= RandomForestClassifier(max_features= 'auto' ,n_estimators= 1000)
     # Train the model using the training sets and check score
     #model.fit(X, y)
+    #from sklearn import tree
+    #model = tree.DecisionTreeClassifier(criterion='gini')
     model.fit(X_train, y_train)
     model.score(X_train, y_train)
     #Predict Output
@@ -255,29 +267,29 @@ def RFModel(df, test_size=0.1):
     print('Training accuracy is {}'.format(trainAcc))
 
 
-# In[34]:
+# In[80]:
 
 RFModel(test2)
 
 
-# In[35]:
+# In[81]:
 
 TestDF.to_excel('new.xlsx')
 
 
-# In[36]:
+# In[83]:
 
 TrainDF.to_excel('trainRF.xlsx')
 
 
-# In[37]:
+# In[84]:
 
 RFModel(test2, test_size=0)
 
 
 # ### Creating rules, fallback responses etc. 
 
-# In[38]:
+# In[85]:
 
 courseNames = {
     'bdva' : ['big data & visual analytics', 'big data & analytics', 'big data and visual analytics', 'big data and analytics'  'big data analytics', 'data analytics','business analytics', 'big data', 'data science', 'analytics', 'data mining', 'data', 'visualisation','machine learning', 'artificial intelligence', 'bdap', 'bdva', 'bdvap'],
@@ -286,9 +298,9 @@ courseNames = {
     'emba': ['executive master of business administration', 'executive masters of business administration', 'executive master in business administration', 'executive masters in business administration', 'executive mba', 'executive', 'emba'],
     'gmba': ['global masters of business administration', 'global master of business administration', 'global masters in business administration', 'global master in business administration', 'global mba', 'globalmba', 'gmba'],
     'mgb' : ['masters in global business', 'masters of global business', 'master of global business', 'masters in global business', 'master in global business', 'mgb'],
-    'mba' : ['masters of business administration','mba'],
+    'mba' : ['masters of business administration',' mba'],
     'dba' : ['doctor of business administration', 'doctorate of business administration', 'business administration doctorate', 'doctor in business administration', 'business doctorate', 'doctorate', 'doctor', 'dba'],
-    'GFMB' : ['global family managed business', 'family managed business', 'family business', 'global fmb', 'gfmb', 'fmb'],
+    'gfmb' : ['global family managed business', 'family managed business', 'family business', 'global fmb', 'gfmb', 'fmb'],
     'bba' : ['bachelor of business administration', 'bachelor in business administration', 'bachelors in business administration', 'bachelors of business administration', 'business management', 'bba'],
     'bec' : ['bachelor of economics', 'bachelor in economics', 'bachelors in economics', 'bachelors of economics', 'economics', 'bachelor of eco', 'bec'],
     'bbc' : ['bachelor of business communication', 'bachelors of business communication', 'bachelor in business communication', 'bachelors in business communication', 'business communication', 'bbc'],
@@ -319,7 +331,12 @@ greetings = [' hi', ' hello', ' how are you', ' are you there', ' there?', ' hey
 thanks = ['thanks', 'thank', 'thx', 'thnx', 'thnks', 'thnk', 'bye', 'okay', 'ok']
 
 
-# In[39]:
+# In[ ]:
+
+
+
+
+# In[86]:
 
 def checkQ(j):
     if '?' in j or j[0:5].lower() =='what ' or j[0:2].lower()=='do' or j[0:3].lower()=='can'     or j[0:2].lower() == 'is' or j[0:5].lower()=='would' or j[:4].lower() == 'how ':
@@ -337,7 +354,7 @@ def removePunct(S):
 
 # Defining the chatbot function. Integrates random forest predictions, rules, fallback answers etc. It takes user input, responds to it, and asks for further input from user. Input 'quit' to stop the function.
 
-# In[43]:
+# In[87]:
 
 def chatbot():
     c = ''
@@ -368,7 +385,7 @@ def chatbot():
             find = False
             fin = False
             counter = 0
-            for course in courseNames:
+            for course in sorted(courseNames):
                 if find:
                     break
                 else:    
@@ -377,7 +394,7 @@ def chatbot():
                         if name in q:
                             find = True
                             new = True
-                            query = q.replace(name, ' ' + course + ' ')
+                            query = q.replace(name, ' ' + str(course) + ' ')
                             #Q = [tf(word, query) for word in vocabulary]
                             N = [tf(word, query) for word in vocabulary2]
                             prob = max(max(model.predict_proba(N)))
@@ -391,7 +408,7 @@ def chatbot():
                             break
                             
                         elif counter == 97:
-                            for course in courseNames:
+                            for course in sorted(courseNames):
                                 if fin:
                                     break
                                 else:
@@ -434,9 +451,22 @@ def chatbot():
 
 # <br><br><br><br><br><br><br>
 
-# In[44]:
+# In[88]:
+
+import warnings
+warnings.filterwarnings('ignore')
+
+
+# In[89]:
 
 chatbot()
+
+
+# In[50]:
+
+N = [tf(word, 'fees of  gmba ?') for word in vocabulary2]
+prob = max(max(model.predict_proba(N)))
+prob
 
 
 # In[ ]:
