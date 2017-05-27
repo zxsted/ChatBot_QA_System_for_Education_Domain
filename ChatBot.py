@@ -457,16 +457,9 @@ import warnings
 warnings.filterwarnings('ignore')
 
 
-# In[89]:
+# In[92]:
 
 chatbot()
-
-
-# In[50]:
-
-N = [tf(word, 'fees of  gmba ?') for word in vocabulary2]
-prob = max(max(model.predict_proba(N)))
-prob
 
 
 # In[ ]:
