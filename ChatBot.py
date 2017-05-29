@@ -1,17 +1,17 @@
 
 # coding: utf-8
 
-# In[1]:
+# In[29]:
 
 import pandas as pd
 
 
-# In[2]:
+# In[30]:
 
 df = pd.read_excel('Data.xlsx')
 
 
-# In[3]:
+# In[31]:
 
 import warnings
 warnings.filterwarnings('ignore')
@@ -19,7 +19,7 @@ warnings.filterwarnings('ignore')
 
 # ### Vectorising Questions 
 
-# In[4]:
+# In[32]:
 
 import string #allows for format()
 import pandas
@@ -91,7 +91,7 @@ for doc in mydoclist:
 
 # ### Vectorising Key Words in Question
 
-# In[5]:
+# In[33]:
 
 import string #allows for format()
 import pandas
@@ -158,43 +158,43 @@ for doc in mydoclist:
     #print(cntr)
 
 
-# In[6]:
+# In[34]:
 
 test2C = test2.copy()
 
 
-# In[7]:
+# In[35]:
 
 test2C.columns = range(test.shape[1], test.shape[1]+ test2.shape[1])
 
 
-# In[8]:
+# In[36]:
 
 test2.index = range(len(test2))
 test.index = range(len(test))
 test2C.index = range(len(test2C))
 
 
-# In[9]:
+# In[37]:
 
 test3 = pd.concat([test.reset_index(drop=True), test2C], axis=1)
 
 #test has vectorised questions in dataframe. test2 does the same for nouns. test3 dataframe concatenates test and test2
 
 
-# In[10]:
+# In[38]:
 
 test['Question'] = list(df.Questions)
 test['Answer'] = list(df.Answers)
 
 
-# In[11]:
+# In[39]:
 
 test2['Question'] = list(df.Questions)
 test2['Answer'] = list(df.Answers)
 
 
-# In[12]:
+# In[40]:
 
 test3['Question'] = list(df.Questions)
 test3['Answer'] = list(df.Answers)
@@ -214,7 +214,7 @@ test3['Answer'] = list(df.Answers)
 
 # ### Applying Random Forest 
 
-# In[79]:
+# In[41]:
 
 TestDF = pd.DataFrame()
 TrainDF = pd.DataFrame()
@@ -267,29 +267,29 @@ def RFModel(df, test_size=0.1):
     print('Training accuracy is {}'.format(trainAcc))
 
 
-# In[80]:
+# In[42]:
 
 RFModel(test2)
 
 
-# In[81]:
+# In[43]:
 
 TestDF.to_excel('new.xlsx')
 
 
-# In[83]:
+# In[44]:
 
 TrainDF.to_excel('trainRF.xlsx')
 
 
-# In[84]:
+# In[45]:
 
 RFModel(test2, test_size=0)
 
 
 # ### Creating rules, fallback responses etc. 
 
-# In[85]:
+# In[46]:
 
 courseNames = {
     'bdva' : ['big data & visual analytics', 'big data & analytics', 'big data and visual analytics', 'big data and analytics'  'big data analytics', 'data analytics','business analytics', 'big data', 'data science', 'analytics', 'data mining', 'data', 'visualisation','machine learning', 'artificial intelligence', 'bdap', 'bdva', 'bdvap'],
@@ -336,7 +336,7 @@ thanks = ['thanks', 'thank', 'thx', 'thnx', 'thnks', 'thnk', 'bye', 'okay', 'ok'
 
 
 
-# In[86]:
+# In[47]:
 
 def checkQ(j):
     if '?' in j or j[0:5].lower() =='what ' or j[0:2].lower()=='do' or j[0:3].lower()=='can'     or j[0:2].lower() == 'is' or j[0:5].lower()=='would' or j[:4].lower() == 'how ':
@@ -354,10 +354,11 @@ def removePunct(S):
 
 # Defining the chatbot function. Integrates random forest predictions, rules, fallback answers etc. It takes user input, responds to it, and asks for further input from user. Input 'quit' to stop the function.
 
-# In[87]:
+# In[48]:
 
 def chatbot():
     c = ''
+    prev = ''
     on = False
     while on == False:
         new = False
@@ -366,10 +367,11 @@ def chatbot():
             for i in thanks:
                 if i in removePunct(q).split():
                     new = True
+                    prev = ''
                     print('SP Jain Assistant: ' + "It's my pleasure to have helped you. All the best!" + '\n')
                     break
                     
-        q = removePunct(q)
+        q = removePunct(q) + prev
         query = c + ' ' + q
         
 
@@ -394,13 +396,14 @@ def chatbot():
                         if name in q:
                             find = True
                             new = True
+                            prev = ''
                             query = q.replace(name, ' ' + str(course) + ' ')
                             #Q = [tf(word, query) for word in vocabulary]
                             N = [tf(word, query) for word in vocabulary2]
                             prob = max(max(model.predict_proba(N)))
                             if prob>0.35:
                                 print('SP Jain Assistant: ' + model.predict(N)[0] + '\n')
-                            elif prob >= 0.22:
+                            elif prob >= 0.22 and model.predict(N)[0] != defaultResp[course] + ' ':
                                 print('SP Jain Assistant: ' + model.predict(N)[0] + '\n' + defaultResp[course] + '\n')
                             else:
                                 print('SP Jain Assistant: ' + defaultResp[course] + '\n')
@@ -414,6 +417,7 @@ def chatbot():
                                 else:
                                     for name in courseNames[course]:
                                         if name in query:
+                                            prev = ''
                                             fin = True
                                             new = True
                                             query = query.replace(name, ' ' + course + ' ')
@@ -422,7 +426,7 @@ def chatbot():
                                             prob = max(max(model.predict_proba(N)))
                                             if prob>0.35:
                                                 print('SP Jain Assistant: ' + model.predict(N)[0] + '\n')
-                                            elif prob >= 0.22:
+                                            elif prob >= 0.22 and model.predict(N)[0] != defaultResp[course] + ' ':
                                                 print('SP Jain Assistant: ' + model.predict(N)[0] + '\n' + defaultResp[course] + '\n')
                                             else:
                                                 print('SP Jain Assistant: ' + defaultResp[course] + '\n')
@@ -432,6 +436,7 @@ def chatbot():
             if find == False and fin == False:   
                 if probability > 0.4:
                     new = True
+                    prev = ''
                     print('SP Jain Assistant: ' + model.predict(N)[0] + '\n')
 
 
@@ -439,30 +444,27 @@ def chatbot():
                     for word in greetings:
                         if word in query:
                             new = True
+                            prev = ''
                             print('SP Jain Assistant: ' + 'Hello! How may I help you?' + '\n')
                             break
 
                         elif word == greetings[-1]:
                             new = True
                             print('SP Jain Assistant: ' + 'May I know which program you are looking for?' + '\n')
+                            prev = q
 
 
 
 
 # <br><br><br><br><br><br><br>
 
-# In[88]:
+# In[49]:
 
 import warnings
 warnings.filterwarnings('ignore')
 
 
-# In[92]:
+# In[50]:
 
 chatbot()
-
-
-# In[ ]:
-
-
 
