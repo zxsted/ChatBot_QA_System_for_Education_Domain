@@ -1,17 +1,17 @@
 
 # coding: utf-8
 
-# In[3]:
+# In[1]:
 
 import pandas as pd
 
 
-# In[4]:
+# In[2]:
 
 df = pd.read_excel('Data.xlsx')
 
 
-# In[5]:
+# In[3]:
 
 import warnings
 warnings.filterwarnings('ignore')
@@ -19,7 +19,7 @@ warnings.filterwarnings('ignore')
 
 # ### Vectorising Questions 
 
-# In[6]:
+# In[4]:
 
 import string #allows for format()
 import pandas
@@ -91,7 +91,7 @@ for doc in mydoclist:
 
 # ### Vectorising Key Words in Question
 
-# In[7]:
+# In[5]:
 
 import string #allows for format()
 import pandas
@@ -158,43 +158,43 @@ for doc in mydoclist:
     #print(cntr)
 
 
-# In[8]:
+# In[6]:
 
 test2C = test2.copy()
 
 
-# In[9]:
+# In[7]:
 
 test2C.columns = range(test.shape[1], test.shape[1]+ test2.shape[1])
 
 
-# In[10]:
+# In[8]:
 
 test2.index = range(len(test2))
 test.index = range(len(test))
 test2C.index = range(len(test2C))
 
 
-# In[11]:
+# In[9]:
 
 test3 = pd.concat([test.reset_index(drop=True), test2C], axis=1)
 
 #test has vectorised questions in dataframe. test2 does the same for nouns. test3 dataframe concatenates test and test2
 
 
-# In[12]:
+# In[10]:
 
 test['Question'] = list(df.Questions)
 test['Answer'] = list(df.Answers)
 
 
-# In[13]:
+# In[11]:
 
 test2['Question'] = list(df.Questions)
 test2['Answer'] = list(df.Answers)
 
 
-# In[14]:
+# In[12]:
 
 test3['Question'] = list(df.Questions)
 test3['Answer'] = list(df.Answers)
@@ -214,7 +214,7 @@ test3['Answer'] = list(df.Answers)
 
 # ### Applying Random Forest 
 
-# In[15]:
+# In[13]:
 
 TestDF = pd.DataFrame()
 TrainDF = pd.DataFrame()
@@ -267,29 +267,29 @@ def RFModel(df, test_size=0.1):
     print('Training accuracy is {}'.format(trainAcc))
 
 
-# In[16]:
+# In[14]:
 
 RFModel(test2)
 
 
-# In[17]:
+# In[15]:
 
 TestDF.to_excel('new.xlsx')
 
 
-# In[18]:
+# In[16]:
 
 TrainDF.to_excel('trainRF.xlsx')
 
 
-# In[19]:
+# In[17]:
 
 RFModel(test2, test_size=0)
 
 
 # ### Creating rules, fallback responses etc. 
 
-# In[20]:
+# In[18]:
 
 courseNames = {
     'bdva' : ['big data & visual analytics', 'big data & analytics', 'big data and visual analytics', 'big data and analytics'  'big data analytics', 'data analytics','business analytics', 'big data', 'data science', 'analytics', 'data mining', 'data', 'visualisation','machine learning', 'artificial intelligence', 'bdap', 'bdva', 'bdvap'],
@@ -336,7 +336,7 @@ thanks = ['thanks', 'thank', 'thx', 'thnx', 'thnks', 'thnk', 'bye', 'okay', 'ok'
 
 
 
-# In[21]:
+# In[19]:
 
 def checkQ(j):
     if '?' in j or j[0:5].lower() =='what ' or j[0:2].lower()=='do' or j[0:3].lower()=='can'     or j[0:2].lower() == 'is' or j[0:5].lower()=='would' or j[:4].lower() == 'how ':
@@ -354,7 +354,7 @@ def removePunct(S):
 
 # Defining the chatbot function. Integrates random forest predictions, rules, fallback answers etc. It takes user input, responds to it, and asks for further input from user. Input 'quit' to stop the function.
 
-# In[29]:
+# In[24]:
 
 def chatbot():
     c = ''
@@ -378,7 +378,7 @@ def chatbot():
         if new:
             continue
             
-        if q == 'quit' or q == 'quit ':
+        if q == 'quit ' + prev:
             on = True
             
         else:
@@ -458,13 +458,13 @@ def chatbot():
 
 # <br><br><br><br><br><br><br>
 
-# In[30]:
+# In[25]:
 
 import warnings
 warnings.filterwarnings('ignore')
 
 
-# In[31]:
+# In[27]:
 
 chatbot()
 
