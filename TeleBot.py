@@ -334,7 +334,7 @@ defaultResp = {
 
 greetings = [' hi', ' hello', ' how are you', ' are you there', ' there?', ' hey', ' good morning', ' good afternoon', ' good evening', ' yo ']
 
-thanks = ['thanks', 'thank', 'thx', 'thnx', 'thnks', 'thnk', 'bye', 'okay', 'ok', 'cool']
+thanks = ['thanks', 'thank', 'thx', 'thnx', 'thnks', 'thnk', 'bye', 'okay', 'ok', 'cool', 'sure']
 
 
 # In[2]:
