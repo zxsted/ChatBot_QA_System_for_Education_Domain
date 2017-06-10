@@ -9,13 +9,11 @@ Due to confidentiality of certain data, chat data transcript used in the project
 
 ### To run/test the bot:
 
-1. Download Question_Answers.xlsx, NounsExtraction.py, Chatbot.py to the same folder
-2. Execute NounsExtraction.py
-3. Execute Chatbot.py
-4. Go ahead and ask your queries!
-5. To exit, type 'quit' 
+1. Create a Telegram account.
+2. Go to t.me/spjbot and type /start to run the bot.
 
-If you are a user of IPython Notebooks, you can also run NounsExtraction.ipynb followed by Chatbot.ipynb instead.
 
+References :- 
+- https://www.codementor.io/garethdwyer/building-a-telegram-bot-using-python-part-1-goi5fncay
 
 
