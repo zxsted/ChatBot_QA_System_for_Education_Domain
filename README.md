@@ -9,8 +9,11 @@ Due to confidentiality of certain data, chat data transcript used in the project
 
 ### To run/test the bot:
 
-1. Create a Telegram account.
-2. Go to t.me/spjbot and type /start to run the bot.
+1. Download the Telegram Messenger app from Google Play Store or Apple Store on your phone.
+2. Open the app. Enter your phone number followed by the verification code recieved. 
+3. From your phone browser, go to t.me/CoffeeOrderBot.com
+4. Click on send message. You will be redirected to the Telegram Messenger app and now you start your conversation with the bot.
+
 
 
 References :- 
