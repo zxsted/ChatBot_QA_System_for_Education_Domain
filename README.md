@@ -1,6 +1,5 @@
 # ChatBot-QA-System-for-S-P-Jain-
 
-Tested only on Python v3.5.2
 
 This chatbot has been designed with the intention to answer queries related to admission, programs etc. offered at SP Jain School of Global Management. It aims to resolve queries of the sp jain website visitors
 
